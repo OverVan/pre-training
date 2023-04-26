@@ -1,0 +1,45 @@
+train_dataset:
+  name: tiered
+  args:
+    tail_path: tiered_imagenet/train
+    transform_list: 
+      - RandomResizedCrop
+      - RandomHorizontalFlip
+      - ToTensor
+      - Normalize
+    image_size: 80
+    
+val_dataset:
+  name: tiered
+  args:
+    tail_path: tiered_imagenet/train
+    transform_list: 
+      - Resize
+      - ToTensor
+      - Normalize
+    image_size: 80
+
+model:
+  name: classifier
+  args:
+    encoder:
+      name: resnet12
+      args: {}
+    cls_num: 351
+      
+optimizer:
+  name: SGD
+  args:
+    lr: 0.1
+    weight_decay: 5.e-4
+    
+lr_scheduler:
+  name: MultiStepLR
+  args:
+    milestones:
+      - 40
+      - 80
+    
+max_epoch: 120
+# gpu不够
+batch_size: 512

@@ -1,0 +1,44 @@
+train_dataset:
+  name: mini
+  args:
+    tail_path: mini-imagenet/train
+    transform_list: 
+      - RandomResizedCrop
+      - RandomHorizontalFlip
+      - ToTensor
+      - Normalize
+    image_size: 84
+    
+val_dataset:
+  name: mini
+  args:
+    tail_path: mini-imagenet/train
+    transform_list: 
+      - Resize
+      - ToTensor
+      - Normalize
+    image_size: 84
+
+model:
+  name: classifier
+  args:
+    encoder:
+      name: convnet4
+      args: {}
+    cls_num: 64
+      
+optimizer:
+  name: SGD
+  args:
+    lr: 0.001
+    weight_decay: 5.e-4
+    
+lr_scheduler:
+  name: MultiStepLR
+  args:
+    milestones:
+      - 75
+      - 150
+    
+max_epoch: 200
+batch_size: 16
